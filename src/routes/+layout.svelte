@@ -5,18 +5,19 @@ let {children} = $props()
     import { onMount } from 'svelte';
     import "../app.css";
     import { WifiHigh,BatteryLow,ChevronLeft, Square,AlignJustify } from '@lucide/svelte';
-    import {showBottomNav} from "$lib/showBottom.svelte"
-    let isMobile = false;
+    import { properties } from "$lib/showBottom.svelte"
+    let isMobile = $state(false);
    
+    onMount(() => {
+  console.log('Mounted. Width:', window.innerWidth); // <-- debug
+  isMobile = window.innerWidth <= 768;
+  console.log('Resized. isMobile:', isMobile); 
 
-    onMount(()=> {
-        //mobile device detection
-        if (window.innerWidth <= 768) {
-            isMobile = true;
-        } else {
-            isMobile = false;
-        }
-    })
+  window.addEventListener('resize', () => {
+    isMobile = window.innerWidth <= 768;
+    console.log('Resized. isMobile:', isMobile); // <-- debug
+  });
+});
 
     
 
@@ -25,6 +26,7 @@ let {children} = $props()
 {#if isMobile}
 <div id="phone-content " class="'w-screen h-screen flex flex-col items-center justify-center " >
     {@render children()}
+    <img src="/bg.png"  class="absolute w-full h-full z-[0]" alt="">
 </div>
     
 {:else}
@@ -48,7 +50,7 @@ let {children} = $props()
        
       
             
-       {#if showBottomNav.show == true}
+     {#if properties.locked == false}
        <div id="bottom-bar" class="flex   z-[1] w-full justify-around py-[20px]">
       
         <AlignJustify size="18"/>
@@ -61,7 +63,8 @@ let {children} = $props()
         <ChevronLeft size="18"/>
       </a>
       </div>
-       {/if}
+      {/if}
+    
         
 
 

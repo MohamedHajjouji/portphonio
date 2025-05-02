@@ -1,3 +1,6 @@
-export let showBottomNav = $state({
-    show: false
+
+
+export let properties = $state({
+    showBottomNav: false,
+    locked: true
 });

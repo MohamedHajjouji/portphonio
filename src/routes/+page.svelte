@@ -2,37 +2,20 @@
     import { onMount } from 'svelte';
     import { NotebookPen, BriefcaseBusiness,Pickaxe,Mail } from '@lucide/svelte';
     import { draggable } from '@neodrag/svelte';
-    import { showBottomNav } from "$lib/showBottom.svelte"
+    import { properties } from "$lib/showBottom.svelte"
 
    
-let lock = "true"
-    onMount(()=>{
-        
-        
-        let locked = localStorage.getItem("locked")
-        if(locked == "false"){
-            showBottomNav.show = true;
-            lock = locked
-        }
-        else{
-            showBottomNav.show = true;
-        }
-        
+    function unlock( ){
 
-    })
-    function unlock(){
-        lock = "false";
-        showBottomNav.show = true
     }
    
-    
 
    
 
 </script>
-{#if lock == "true"}
+{#if properties.locked == true}
 
- <div id="lock-screen" class=" z-[3] w-full min-h-full  absolute flex flex-col justify-between items-center" use:draggable={{ axis: 'y',bounds: { bottom: 35}}} on:neodrag:end={unlock()}>   
+ <div id="lock-screen" class=" z-[3] w-full min-h-full  absolute flex flex-col justify-between items-center" use:draggable={{ axis: 'y',bounds: { bottom: 35}}} on:neodrag:end={()=> {properties.locked = false}}>   
     
     <div id="time-date" class="mt-[20%] flex flex-col items-center ">
         <h1 class="text-[51px]">1:45</h1>
